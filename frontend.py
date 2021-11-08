@@ -3,7 +3,7 @@
 
 # GUI
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QKeyEvent, QPixmap
+from PyQt5.QtGui import QKeyEvent, QPixmap
 from PyQt5.QtWidgets import QLabel, QPushButton, QApplication
 
 # System
@@ -15,45 +15,45 @@ from backend import Tile
 from event import Sets, Events
 
 class Win(Tile, Sets, Events):
-    def __init__(cls):
+    def __init__(self):
         super().__init__()
 
         super().init_Tile()
 
-        cls.init_UI()
+        self.init_UI()
         
-        entity_list = [cls.start_image, cls.start_button, cls.rule_image, cls.rule_button, 
-                         cls.setting_image, cls.setting_button, cls.test_able_image_text, cls.test_able_image_able, cls.test_able_button, 
-                         cls.black_pick_tile, cls.black_pick_tile_button, cls.white_pick_tile, cls.white_pick_tile_button]
+        entity_list = [self.start_image, self.start_button, self.rule_image, self.rule_button, 
+                         self.setting_image, self.setting_button, self.test_able_image_text, self.test_able_image_able, self.test_able_button, 
+                         self.black_pick_tile, self.black_pick_tile_button, self.white_pick_tile, self.white_pick_tile_button]
 
-        for _value in cls.tile_bundle.values():
+        for _value in self.tile_bundle.values():
             for _item in _value:
                 entity_list.append(_item)
             
-        super().the_init(cls.checker, *entity_list)
+        super().the_init(self.checker, *entity_list)
 
     # 창 초기화
-    def init_UI(cls):
-        cls.setWindowFlags(Qt.FramelessWindowHint) # 창 조절바 없애기
+    def init_UI(self):
+        self.setWindowFlags(Qt.FramelessWindowHint) # 창 조절바 없애기
 
-        cls.resize(720, 1000) # 라벨을 가운데로 맞추는 식 - 가로 : 360 - [( 라벨의 가로 크기 ) / 2]
-        cls.set_center()
+        self.resize(720, 1000) # 라벨을 가운데로 맞추는 식 - 가로 : 360 - [( 라벨의 가로 크기 ) / 2]
+        self.set_center()
 
 		# 안에서 처리하는데 필요한 변수
-        cls.fullscreen = 0
+        self.fullscreen = 0
 
         # 바탕 화면 로드 & 배치
-        cls.background = QLabel(cls)
-        cls.background.setPixmap(QPixmap('background'))
+        self.background = QLabel(self)
+        self.background.setPixmap(QPixmap('background'))
 
         # 모든 세팅 함수 호출
-        cls.set_all_buttons()
+        self.set_all_buttons()
 
-        cls.checker = QLabel(cls)
-        cls.checker.setPixmap(QPixmap('checker'))
-        cls.checker.setVisible(False)
+        self.checker = QLabel(self)
+        self.checker.setPixmap(QPixmap('checker'))
+        self.checker.setVisible(False)
 
-        cls.show()
+        self.show()
         
     def set_all_buttons(self):
         self.set_start_button()
