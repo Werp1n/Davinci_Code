@@ -64,12 +64,6 @@ class Sets(QWidget):
         # Button
         self.set_button(button, position, transparency, pressed_event, released_event, visible)
 
-    # 뽑은 타일을 정렬하는 함수
-    def set_tile(self, tile_bundle : dict):
-        for _value in tile_bundle.values():
-            for _item in _value:
-                _item.setVisible(False)
-
 class Events(QWidget):
     def __init__(cls):
         super().__init__()
@@ -115,10 +109,8 @@ class Events(QWidget):
         self.set_visible(*visibles)
 
     # Start
-    def released_start(self, image : QLabel, tile_bundle : dict,*visibles):
+    def released_start(self, image : QLabel,*visibles):
         self.released_event(image, *visibles)
-
-        Sets().set_tile(tile_bundle)
     
     def pressed_pick(self, image : QLabel):
         winsound.Beep(493, 50)
