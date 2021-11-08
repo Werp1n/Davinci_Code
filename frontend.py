@@ -42,14 +42,9 @@ class Win(Tile, Sets, Events):
 		# 안에서 처리하는데 필요한 변수
         cls.fullscreen = 0
 
-		# 창 관련 세팅
-        cls.setWindowTitle('Davinci Code')
-        cls.setWindowIcon(QIcon('window_titlebar_icon'))
-
         # 바탕 화면 로드 & 배치
         cls.background = QLabel(cls)
-        cls.background.setPixmap(QPixmap('background_main'))
-        cls.background.setGeometry(0, 0, 720, 1000)
+        cls.background.setPixmap(QPixmap('background'))
 
         # 모든 세팅 함수 호출
         cls.set_all_buttons()
