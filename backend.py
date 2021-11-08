@@ -1,16 +1,16 @@
 class Tile():
-    def __init__(cls):
+    def __init__(self):
         super().__init__()
         # 변하지 않는 초깃값 list()를 사용하여
         # Tile  
-        cls.black_tile_solid = list(range(0, 24, 2))
-        cls.white_tile_solid = list(range(1, 24, 2))
+        self.black_tile_solid = list(range(0, 24, 2))
+        self.white_tile_solid = list(range(1, 24, 2))
 
         # Player
-        cls.human_tile_solid = []
-        cls.AI_tile_solid = []
+        self.human_tile_solid = []
+        self.AI_tile_solid = []
 
-        cls.init_Tile()
+        self.init_Tile()
 
     # Tile을 처리하는데 필요한 값을 초기화
     def init_Tile(self): 
