@@ -12,7 +12,7 @@ from backend import Tile
 T = Tile()
 
 class Sets(QWidget):
-    def __init__(cls):
+    def __init__(self):
         super().__init__()
         
     # 창 위치를 가운데로 배치
@@ -65,25 +65,25 @@ class Sets(QWidget):
         self.set_button(button, position, transparency, pressed_event, released_event, visible)
 
 class Events(QWidget):
-    def __init__(cls):
+    def __init__(self):
         super().__init__()
     
-    def the_init(cls, checker : QLabel, *all_object):
+    def the_init(self, checker : QLabel, *all_object):
         FONT = QFont()
         FONT.setFamily('Times New Roman')
         FONT.setPointSize(100) # 왜냐면 이 함수를 쓸 QLabel들은 다 font_size가 100이기 떄문
         FONT.setBold(True)
-        cls.setFont(FONT)
+        self.setFont(FONT)
 
-        cls.home = True
-        cls.test = False
-        cls.turn = 'HUMAN'
+        self.home = True
+        self.test = False
+        self.turn = 'HUMAN'
 
-        cls.checker = checker
+        self.checker = checker
 
-        cls.all_objects_list = []
+        self.all_objects_list = []
         for _object in all_object:
-            cls.all_objects_list.append(_object)
+            self.all_objects_list.append(_object)
         
         T.init_Tile()
     
