@@ -30,7 +30,7 @@ class Sets(QWidget):
 
     # QLabel만 사용 할 수 있기에, set_object 함수로 QPushButton도 사용 할 수 있기에 각각 따로 만든다.
     # QLabel
-    def set_label(self, image : QLabel, position_image : list[int], image_text : str, image_text_color : str, font_family : str, font_size : int, visible : bool = False):
+    def set_label(self, image : QLabel, position_image : list[int], image_text : str, image_text_color : str, font_family : str, font_size : int):
         image.setGeometry(position_image[0], position_image[1], position_image[2], position_image[3])
 
         # 폰트 (Font)
@@ -44,25 +44,23 @@ class Sets(QWidget):
         image.setStyleSheet('color : {};'.format(image_text_color.lower()))
         image.setAlignment(Qt.AlignCenter)
 
-        image.setVisible(visible)
-
     # QPushButton
-    def set_button(self, button : QPushButton, position_button : list[int], transparency : float, pressed_event, released_event, visible : bool = False):
+    def set_button(self, button : QPushButton, position_button : list[int], transparency : float, pressed_event, released_event):
         button.setGeometry(position_button[0], position_button[1], position_button[2], position_button[3])
         self.set_transparency(button, transparency)
         button.pressed.connect(pressed_event)
         button.released.connect(released_event)
-
-        button.setVisible(visible)
     
     # 메뉴, 타일 등 모든 버튼을 배치
-    def set_object(self, image : QLabel, image_text : str, image_text_color : str, font_family : str, font_size : int,
-                   button : QPushButton, transparency : float, pressed_event, released_event, position : list[int], visible : bool = False):
+    # def set_object(self, image : QLabel, image_text : str, image_text_color : str, font_family : str, font_size : int,
+    #                button : QPushButton, transparency : float, pressed_event, released_event, position : list[int]):
+    def set_object(self, image : QLabel, button : QPushButton, image_text : str, image_text_color : str, font_family : str, font_size : int,
+                   transparency : float, position : list[int], pressed_event, released_event):
         # Image
-        self.set_label(image, position, image_text, image_text_color, font_family, font_size, visible)
+        self.set_label(image, position, image_text, image_text_color, font_family, font_size)
         
         # Button
-        self.set_button(button, position, transparency, pressed_event, released_event, visible)
+        self.set_button(button, position, transparency, pressed_event, released_event)
 
 class Events(QWidget):
     def __init__(self):
