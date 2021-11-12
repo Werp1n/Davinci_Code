@@ -21,16 +21,6 @@ class Win(Tile, Sets, Events):
         super().init_Tile()
 
         self.init_UI()
-        
-        entity_list = [self.start_image, self.start_button, self.rule_image, self.rule_button, 
-                         self.setting_image, self.setting_button, self.test_able_image_text, self.test_able_image_able, self.test_able_button, 
-                         self.black_pick_tile, self.black_pick_tile_button, self.white_pick_tile, self.white_pick_tile_button]
-
-        for _value in self.tile_bundle.values():
-            for _item in _value:
-                entity_list.append(_item)
-            
-        super().the_init(self.checker, *entity_list)
 
     # 창 초기화
     def init_UI(self):
@@ -52,6 +42,17 @@ class Win(Tile, Sets, Events):
         self.checker = QLabel(self)
         self.checker.setPixmap(QPixmap('checker'))
         self.checker.setVisible(False)
+        
+        entity_list = [self.start_image, self.start_button, # Start
+                       self.black_pick_tile, self.black_pick_tile_button, self.white_pick_tile, self.white_pick_tile_button, # Game
+                       self.rule_image, self.rule_button, self.rule_text, # Rule
+                       self.setting_image, self.setting_button, self.test_able_image_text, self.test_able_image_able, self.test_able_button] # Setting
+
+        for _value in self.tile_bundle.values():
+            for _item in _value:
+                entity_list.append(_item)
+            
+        super().the_init(self.checker, *entity_list)
 
         self.show()
         
@@ -64,7 +65,7 @@ class Win(Tile, Sets, Events):
         self.start_image = QLabel(self)
         self.start_button = QPushButton('', self)
 
-        self.set_object(self.start_image, self.start_button, 'S t a r t', 'black', 'Times New Roman', 100, 0.0, [125, 70, 470, 100],
+        self.set_object(self.start_image, self.start_button, 'S t a r t', 'black', 'Times New Roman', 100, 0.0, [125, 70, 470, 100], True,
                         lambda : self.pressed_event(self.start_image),
                         lambda : self.released_start(self.start_image, self.black_pick_tile, self.black_pick_tile_button, self.white_pick_tile, self.white_pick_tile_button))
 
@@ -74,7 +75,7 @@ class Win(Tile, Sets, Events):
 
         self.black_pick_tile_button = QPushButton('', self)
 
-        self.set_object(self.black_pick_tile, self.black_pick_tile_button, '', '', '', 1, 0.0, [5, 430, 110, 140],
+        self.set_object(self.black_pick_tile, self.black_pick_tile_button, '', '', '', 1, 0.0, [5, 430, 110, 140], False,
                         lambda : self.pressed_pick(self.black_pick_tile),
                         lambda : self.released_pick(self.black_pick_tile, self.black_pick_tile_button, 'B'))
         
@@ -83,7 +84,7 @@ class Win(Tile, Sets, Events):
 
         self.white_pick_tile_button = QPushButton('', self)
         
-        self.set_object(self.white_pick_tile, self.white_pick_tile_button, '', '', '', 1, 0.0, [605, 430, 110, 140],
+        self.set_object(self.white_pick_tile, self.white_pick_tile_button, '', '', '', 1, 0.0, [605, 430, 110, 140], False,
                         lambda : self.pressed_pick(self.white_pick_tile),
                         lambda : self.released_pick(self.white_pick_tile, self.white_pick_tile_button, 'W'))
         
@@ -98,16 +99,12 @@ class Win(Tile, Sets, Events):
 
             # Image
             image_label = QLabel(self)
-            self.set_label(image_label, [5 + 120 * (i % 6), 200 + (i // 6) * 170, 110, 140], '', '', '', 1)
+            self.set_label(image_label, [5 + 120 * (i % 6), 200 + (i // 6) * 170, 110, 140], '', '', '', 1, False)
             image_label.setPixmap(QPixmap('{}_tile'.format(COLOR[0])))
-
-            image_label.setVisible(False)
 
             # Text
             text_label = QLabel(self)
-            self.set_label(text_label, [5 + 120 * (i % 6), 200 + (i // 6) * 170, 110, 140], str(i // 2), COLOR[1], '맑은 고딕', 40)
-
-            text_label.setVisible(False)
+            self.set_label(text_label, [5 + 120 * (i % 6), 200 + (i // 6) * 170, 110, 140], str(i // 2), COLOR[1], '맑은 고딕', 40, False)
 
             self.tile_bundle[COLOR[0]].append(image_label)
             self.tile_bundle[TEXT].append(text_label)
@@ -115,27 +112,32 @@ class Win(Tile, Sets, Events):
     def set_rule_button(self):
         self.rule_image = QLabel(self)
         self.rule_button = QPushButton('', self)
+        
+        _text = '''Rule is ...\n1. blabla\n2. salasala'''
+                            
+        self.rule_text = QLabel(self)
+        self.set_label(self.rule_text, [110, 110, 500, 500], _text, 'black', 'Times New Roman', 80, False)
 
-        self.set_object(self.rule_image, self.rule_button, 'R u l e', 'black', 'Times New Roman', 100, 0.0, [160, 400, 400, 100],
+        self.set_object(self.rule_image, self.rule_button, 'R u l e', 'black', 'Times New Roman', 100, 0.0, [160, 400, 400, 100], True,
                         lambda : self.pressed_event(self.rule_image),
-                        self.none_event)
+                        lambda : self.released_event(self.rule_image, self.rule_text))
 
     def set_setting_button(self):
         self.setting_image = QLabel(self)
         self.setting_button = QPushButton('', self)
 
-        self.set_object(self.setting_image, self.setting_button, 'S e t t i n g', 'black', 'Times New Roman', 100, 0.0, [60, 740, 600, 160],
+        self.set_object(self.setting_image, self.setting_button, 'S e t t i n g', 'black', 'Times New Roman', 100, 0.0, [60, 740, 600, 160], True,
                         lambda : self.pressed_event(self.setting_image),
-                        lambda : self.released_setting(self.setting_image, self.test_able_image_text, self.test_able_image_able, self.test_able_button))
+                        lambda : self.released_event(self.setting_image, self.test_able_image_text, self.test_able_image_able, self.test_able_button))
         
         self.test_able_image_text = QLabel(self)
         self.test_able_image_able = QLabel(self)
 
         self.test_able_button = QPushButton('', self)
 
-        self.set_label(self.test_able_image_text, [60, 200, 300, 90], 'Test : ', 'black', 'Times New Roman', 80)
+        self.set_label(self.test_able_image_text, [60, 200, 300, 90], 'Test : ', 'black', 'Times New Roman', 80, False)
         
-        self.set_object(self.test_able_image_able, self.test_able_button, 'Unable', 'red', 'Times New Roman', 80, 0.0, [340, 200, 330, 90],
+        self.set_object(self.test_able_image_able, self.test_able_button, 'Unable', 'red', 'Times New Roman', 80, 0.0, [340, 200, 330, 90], False,
                         self.pressed_test,
                         lambda : self.released_test(self.test_able_image_able, self.test_able_image_text, self.test_able_button))
     
