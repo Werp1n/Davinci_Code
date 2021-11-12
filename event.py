@@ -30,37 +30,41 @@ class Sets(QWidget):
 
     # QLabel만 사용 할 수 있기에, set_object 함수로 QPushButton도 사용 할 수 있기에 각각 따로 만든다.
     # QLabel
-    def set_label(self, image : QLabel, position_image : list[int], image_text : str, image_text_color : str, font_family : str, font_size : int):
+    def set_label(self, image : QLabel, position_image : list[int], image_text : str, image_text_color : str, font_family : str, font_size : int, visible : bool):
         image.setGeometry(position_image[0], position_image[1], position_image[2], position_image[3])
 
         # 폰트 (Font)
-        font = QFont()
-        font.setFamily(font_family)
-        font.setPointSize(font_size)
-        font.setBold(True)
-        image.setFont(font)
+        FONT = QFont()
+        FONT.setFamily(font_family)
+        FONT.setPointSize(font_size)
+        FONT.setBold(True)
+        image.setFont(FONT)
 
         image.setText(image_text)
         image.setStyleSheet('color : {};'.format(image_text_color.lower()))
         image.setAlignment(Qt.AlignCenter)
+        
+        image.setVisible(visible)
 
     # QPushButton
-    def set_button(self, button : QPushButton, position_button : list[int], transparency : float, pressed_event, released_event):
+    def set_button(self, button : QPushButton, position_button : list[int], transparency : float, pressed_event, released_event, visible : bool):
         button.setGeometry(position_button[0], position_button[1], position_button[2], position_button[3])
+        
         self.set_transparency(button, transparency)
+        
         button.pressed.connect(pressed_event)
         button.released.connect(released_event)
+        
+        button.setVisible(visible)
     
     # 메뉴, 타일 등 모든 버튼을 배치
-    # def set_object(self, image : QLabel, image_text : str, image_text_color : str, font_family : str, font_size : int,
-    #                button : QPushButton, transparency : float, pressed_event, released_event, position : list[int]):
     def set_object(self, image : QLabel, button : QPushButton, image_text : str, image_text_color : str, font_family : str, font_size : int,
-                   transparency : float, position : list[int], pressed_event, released_event):
+                   transparency : float, position : list[int], visible : bool, pressed_event, released_event):
         # Image
-        self.set_label(image, position, image_text, image_text_color, font_family, font_size)
+        self.set_label(image, position, image_text, image_text_color, font_family, font_size, visible)
         
         # Button
-        self.set_button(button, position, transparency, pressed_event, released_event)
+        self.set_button(button, position, transparency, pressed_event, released_event, visible)
 
 class Events(QWidget):
     def __init__(self):
@@ -83,6 +87,9 @@ class Events(QWidget):
         for _object in all_object:
             self.all_objects_list.append(_object)
         
+        T.init_Tile()
+    
+    def INIT_TILE(self):
         T.init_Tile()
     
     def set_visible(self, *objects):
@@ -130,13 +137,6 @@ class Events(QWidget):
             button.setVisible(False)
         
         print(T.order('human'), T.order('AI'))
-    
-    def INIT_TILE(self):
-        T.init_Tile()
-    
-    # Setting
-    def released_setting(self, image : QLabel, *visibles):
-        self.released_event(image, *visibles)
     
     def pressed_test(self):
         winsound.Beep(261, 50)
